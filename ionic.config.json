@@ -1,0 +1,8 @@
+{
+  "name": "MobiInv",
+  "app_id": "3f2d2fcd",
+  "type": "ionic-angular",
+  "integrations": {
+    "cordova": {}
+  }
+}
