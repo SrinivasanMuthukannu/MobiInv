@@ -7,9 +7,9 @@ import { EditItemdataPage } from '../edit-itemdata/edit-itemdata';
 @IonicPage()
 @Component({
   selector: 'page-special',
-  templateUrl: 'special.html',
+  templateUrl: 'Items.html',
 })
-export class SpecialPage {
+export class ItemsPage {
 
   
 expenses: any = [];
