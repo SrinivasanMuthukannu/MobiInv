@@ -9,8 +9,8 @@ import { Toast } from '@ionic-native/toast';
   templateUrl: 'edit-itemdata.html',
 })
 export class EditItemdataPage {
-
-  data = { rowid:0, date:"", type:"", description:"", amount:0 };
+  
+  data = {rowid:0,description:"",code:"", rate:0 };
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
@@ -21,17 +21,16 @@ export class EditItemdataPage {
 
   getCurrentData(rowid) {
     this.sqlite.create({
-      name: 'ionicdb.db',
+      name: 'MobiInv.db',
       location: 'default'
     }).then((db: SQLiteObject) => {
-      db.executeSql('SELECT * FROM expense WHERE rowid=?', [rowid])
+      db.executeSql('SELECT * FROM Items WHERE rowid=?', [rowid])
         .then(res => {
           if(res.rows.length > 0) {
             this.data.rowid = res.rows.item(0).rowid;
-            this.data.date = res.rows.item(0).date;
-            this.data.type = res.rows.item(0).type;
-            this.data.description = res.rows.item(0).description;
-            this.data.amount = res.rows.item(0).amount;
+            this.data.description = res.rows.item(0).description;            
+            this.data.code = res.rows.item(0).code;
+            this.data.rate = res.rows.item(0).rate;
           }
         })
         .catch(e => {
@@ -54,10 +53,10 @@ export class EditItemdataPage {
 
   updateData() {
     this.sqlite.create({
-      name: 'ionicdb.db',
+      name: 'MobiInv.db',
       location: 'default'
     }).then((db: SQLiteObject) => {
-      db.executeSql('UPDATE expense SET date=?,type=?,description=?,amount=? WHERE rowid=?',[this.data.date,this.data.type,this.data.description,this.data.amount,this.data.rowid])
+      db.executeSql('UPDATE Items SET description=?,code=?,rate=? WHERE rowid=?',[this.data.description,this.data.code,this.data.rate,this.data.rowid])
         .then(res => {
           console.log(res);
           this.toast.show('Data updated', '5000', 'center').subscribe(

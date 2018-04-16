@@ -11,6 +11,7 @@ import { LoginPage } from '../pages/login/login';
 import { AddItemdataPage } from '../pages/add-itemdata/add-itemdata';
 import { EditItemdataPage } from '../pages/edit-itemdata/edit-itemdata';
 
+
 @NgModule({
   declarations: [
     MyApp,
@@ -34,7 +35,7 @@ import { EditItemdataPage } from '../pages/edit-itemdata/edit-itemdata';
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     SQLite,
-    Toast
+    Toast    
   ]
 })
 export class AppModule {}
