@@ -12,6 +12,7 @@ import { EditItemdataPage } from '../edit-itemdata/edit-itemdata';
 export class ItemsPage {
   
 ItemsList: any = [];
+LoadedItemsList: any = [];
 
   constructor(public navCtrl: NavController, public navParams: NavParams,private sqlite: SQLite) {    
   }
@@ -27,18 +28,43 @@ ItemsList: any = [];
     this.sqlite.create({
       name: 'MobiInv.db',
       location: 'default'
-    }).then((db: SQLiteObject) => {      
-      db.executeSql('CREATE TABLE IF NOT EXISTS Items(rowid INTEGER PRIMARY KEY, description TEXT, code TEXT,rate INT)', {})
+    }).then((db: SQLiteObject) => {  
+       db.executeSql('CREATE TABLE IF NOT EXISTS Items(rowid INTEGER PRIMARY KEY, description TEXT, code TEXT,rate INT)', {})
       .then(res => console.log('Executed SQL'))
-      .catch(e => console.log(e));
+      .catch(e => console.log(e));      
       db.executeSql('SELECT * FROM Items ORDER BY rowid DESC', {})
       .then(res => {
         this.ItemsList = [];
         for(var i=0; i<res.rows.length; i++) {
           this.ItemsList.push({rowid:res.rows.item(i).rowid,description:res.rows.item(i).description,code:res.rows.item(i).code,rate:res.rows.item(i).rate})
         }
+        this.LoadedItemsList=this.ItemsList;
       })   
     }).catch(e => console.log(e));
+  }
+
+  initializeItems(): void {
+    this.ItemsList = this.LoadedItemsList;
+  }
+
+  getItems(searchbar) {
+    // Reset items back to all of the items
+    this.initializeItems();  
+    // set q to the value of the searchbar
+    var q = searchbar.srcElement.value;
+    // if the value is an empty string don't filter the items
+    if (!q) {
+      return;
+    }  
+    this.ItemsList = this.ItemsList.filter((v) => {
+      if(v.description && q) {
+        if (v.description.toLowerCase().indexOf(q.toLowerCase()) > -1) {
+          return true;
+        }
+        return false;
+      }
+    });  
+    console.log(q, this.ItemsList.length);  
   }
   
   addData() {

@@ -14,8 +14,8 @@
   </ion-navbar>
 </ion-header>
  
-<ion-content padding>
-  <h2>Items List</h2>
+<ion-content>
+  <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
   <ion-list>
     <ion-item-sliding *ngFor="let itemsls of ItemsList; let i=index">
       <ion-item nopadding>
@@ -24,7 +24,7 @@
           Code: {{itemsls.code}}<br>          
         </p>
         <h3 item-end>
-          Rate: ${{itemsls.rate}}
+          Rate: ${{itemsls.rate}}          
         </h3>
       </ion-item>
       <ion-item-options side="right">
