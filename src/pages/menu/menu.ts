@@ -1,5 +1,5 @@
-import { Tab2Page } from './../tab2/tab2';
-import { Tab1Page } from './../tab1/tab1';
+// import { Tab2Page } from './../tab2/tab2';
+// import { Tab1Page } from './../tab1/tab1';
 import { TabsPage } from './../tabs/tabs';
 import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, Nav } from 'ionic-angular';
@@ -25,9 +25,9 @@ export class MenuPage {
   @ViewChild(Nav) nav: Nav;
  
   pages: PageInterface[] = [
-    { title: 'Items', pageName: 'ItemsPage', icon: 'shuffle' },
-    { title: 'Tab 1', pageName: 'TabsPage', tabComponent: 'Tab1Page', index: 0, icon: 'home' },
-    { title: 'Tab 2', pageName: 'TabsPage', tabComponent: 'Tab2Page', index: 1, icon: 'contacts' },    
+    // { title: 'Items', pageName: 'ItemsPage', icon: 'shuffle' },
+    { title: 'Items', pageName: 'TabsPage', tabComponent: 'ItemsPage', index: 0, icon: 'home' },
+    { title: 'Clients', pageName: 'TabsPage', tabComponent: 'ClientsPage', index: 1, icon: 'contacts' },    
   ];
  
   constructor(public navCtrl: NavController) { }

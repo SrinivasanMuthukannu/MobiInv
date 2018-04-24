@@ -10,6 +10,8 @@ import { MyApp } from './app.component';
 import { LoginPage } from '../pages/login/login';
 import { AddItemdataPage } from '../pages/add-itemdata/add-itemdata';
 import { EditItemdataPage } from '../pages/edit-itemdata/edit-itemdata';
+import { AddClientdataPage } from '../pages/add-clientdata/add-clientdata';
+import { EditClientdataPage } from '../pages/edit-clientdata/edit-clientdata';
 
 
 @NgModule({
@@ -17,7 +19,9 @@ import { EditItemdataPage } from '../pages/edit-itemdata/edit-itemdata';
     MyApp,
     LoginPage,
     AddItemdataPage,
-    EditItemdataPage
+    EditItemdataPage,
+    AddClientdataPage,
+    EditClientdataPage
   ],
   imports: [
     BrowserModule,
@@ -28,7 +32,9 @@ import { EditItemdataPage } from '../pages/edit-itemdata/edit-itemdata';
     MyApp,
     LoginPage,
     AddItemdataPage,
-    EditItemdataPage  
+    EditItemdataPage,
+    AddClientdataPage,
+    EditClientdataPage
   ],
   providers: [
     StatusBar,

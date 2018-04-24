@@ -8,8 +8,8 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class TabsPage {
  
-  tab1Root: any = 'Tab1Page';
-  tab2Root: any = 'Tab2Page';
+  tab1Root: any = 'ItemsPage';
+  tab2Root: any = 'ClientsPage';
   myIndex: number;
  
   constructor(navParams: NavParams) {

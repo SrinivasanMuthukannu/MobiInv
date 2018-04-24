@@ -1,0 +1,26 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Items</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+  <h2>Add Data</h2>
+  <form (ngSubmit)="saveData()"> 
+    <ion-item>
+      <ion-label>Description</ion-label>
+      <ion-input type="text" placeholder="Description" [(ngModel)]="data.description" name="description" required="" ></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Rate</ion-label>
+      <ion-input type="number" placeholder="Rate" [(ngModel)]="data.rate" name="rate" required="" ></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Code</ion-label>
+      <ion-input type="text" placeholder="Code" [(ngModel)]="data.code" name="code" required="" ></ion-input>
+    </ion-item>
+    <button ion-button type="submit" block>Save Data</button>
+  </form>
+</ion-content>
