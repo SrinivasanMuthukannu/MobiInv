@@ -1,26 +1,42 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>My Expense</ion-title>
+    <ion-title>Client</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 <ion-content padding>
-  <h2>Edit Items</h2>
-  <form (ngSubmit)="updateData()">    
-    
+  <h2>Edit Client</h2>
+  <form (ngSubmit)="updateData()">
     <ion-item>
-      <ion-label>Description</ion-label>
-      <ion-input type="text" placeholder="Description" [(ngModel)]="data.description" name="description" required="" ></ion-input>
+      <ion-label>Name</ion-label>
+      <ion-input type="text" placeholder="Name" [(ngModel)]="data.Name" name="Name" required="" ></ion-input>
     </ion-item>
+    <br/> 
     <ion-item>
-      <ion-label>Rate</ion-label>
-      <ion-input type="number" placeholder="Rate" [(ngModel)]="data.rate" name="rate" required="" ></ion-input>
+      <ion-label>Email</ion-label>
+      <ion-input type="text" placeholder="Email" [(ngModel)]="data.Email" name="Email" required="" ></ion-input>
     </ion-item>
+    <br/>
     <ion-item>
-      <ion-label>Code</ion-label>
-      <ion-input type="text" placeholder="Code" [(ngModel)]="data.code" name="code" required="" ></ion-input>
+      <ion-label>Mobile</ion-label>
+      <ion-input type="text" placeholder="Mobile" [(ngModel)]="data.Mobile" name="Mobile" required="" ></ion-input>
+    </ion-item>
+    <br/>
+    <ion-item>
+      <ion-label>Address1</ion-label>
+      <ion-input type="text" placeholder="Address1" [(ngModel)]="data.Addr1" name="Addr1" required="" ></ion-input>
+    </ion-item>
+    <br/>
+    <ion-item>
+      <ion-label>Address2</ion-label>
+      <ion-input type="text" placeholder="Address2" [(ngModel)]="data.Addr2" name="Addr2" required="" ></ion-input>
+    </ion-item>
+    <br/>
+    <ion-item>
+      <ion-label>Address3</ion-label>
+      <ion-input type="text" placeholder="Address3" [(ngModel)]="data.Addr3" name="Addr3" required="" ></ion-input>
     </ion-item>
     <ion-input type="hidden" [(ngModel)]="data.rowid" name="rowid"></ion-input>
     <button ion-button type="submit" block>Update Data</button>

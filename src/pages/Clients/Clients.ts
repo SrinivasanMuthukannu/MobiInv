@@ -29,14 +29,14 @@ LoadedItemsList: any = [];
       name: 'MobiInv.db',
       location: 'default'
     }).then((db: SQLiteObject) => {  
-       db.executeSql('CREATE TABLE IF NOT EXISTS Items(rowid INTEGER PRIMARY KEY, description TEXT, code TEXT,rate INT)', {})
+       db.executeSql('CREATE TABLE IF NOT EXISTS Clients(rowid INTEGER PRIMARY KEY AUTOINCREMENT,Name TEXT,Email TEXT,Mobile TEXT,Addr1 TEXT,Addr2 TEXT,Addr3 TEXT)', {})
       .then(res => console.log('Executed SQL  clients'))
       .catch(e => console.log(e));      
-      db.executeSql('SELECT * FROM Items ORDER BY rowid DESC', {})
+      db.executeSql('SELECT * FROM Clients ORDER BY rowid DESC', {})
       .then(res => {
         this.ItemsList = [];
         for(var i=0; i<res.rows.length; i++) {
-          this.ItemsList.push({rowid:res.rows.item(i).rowid,description:res.rows.item(i).description,code:res.rows.item(i).code,rate:res.rows.item(i).rate})
+          this.ItemsList.push({rowid:res.rows.item(i).rowid,Name:res.rows.item(i).Name,Email:res.rows.item(i).Email,Mobile:res.rows.item(i).Mobile,Addr1:res.rows.item(i).Addr1,Addr2:res.rows.item(i).Addr2,Addr3:res.rows.item(i).Addr3})
         }
         this.LoadedItemsList=this.ItemsList;
       })   
@@ -57,8 +57,8 @@ LoadedItemsList: any = [];
       return;
     }  
     this.ItemsList = this.ItemsList.filter((v) => {
-      if(v.description && q) {
-        if (v.description.toLowerCase().indexOf(q.toLowerCase()) > -1) {
+      if(v.Name && q) {
+        if (v.Name.toLowerCase().indexOf(q.toLowerCase()) > -1) {
           return true;
         }
         return false;
@@ -83,7 +83,7 @@ LoadedItemsList: any = [];
       name: 'MobiInv.db',
       location: 'default'
     }).then((db: SQLiteObject) => {
-      db.executeSql('DELETE FROM Items WHERE rowid=?', [rowid])
+      db.executeSql('DELETE FROM Clients WHERE rowid=?', [rowid])
       .then(res => {
         console.log(res);
         this.getData();

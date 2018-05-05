@@ -10,7 +10,7 @@ import { Toast } from '@ionic-native/toast';
 })
 export class AddClientdataPage {
 
-  data = {description:"",code:"", rate:0 };
+  data = {Name:"",Email:"",Mobile:"",Addr1:"",Addr2:"",Addr3:"" };
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
@@ -22,7 +22,7 @@ export class AddClientdataPage {
       name: 'MobiInv.db',
       location: 'default'
     }).then((db: SQLiteObject) => {
-      db.executeSql('INSERT INTO Items VALUES(NULL,?,?,?)',[this.data.description,this.data.code,this.data.rate])
+      db.executeSql('INSERT INTO Clients(Name,Email,Mobile,Addr1,Addr2,Addr3) VALUES(?,?,?,?,?,?)',[this.data.Name,this.data.Email,this.data.Mobile,this.data.Addr1,this.data.Addr2,this.data.Addr3])
         .then(res => {
           console.log("Inserted");
           this.toast.show('Data saved', '5000', 'center').subscribe(

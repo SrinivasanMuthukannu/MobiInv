@@ -8,9 +8,9 @@ import { Toast } from '@ionic-native/toast';
   selector: 'page-edit-clientdata',
   templateUrl: 'edit-clientdata.html',
 })
-export class EditClientdataPage {
+export class EditClientdataPage {  
   
-  data = {rowid:0,description:"",code:"", rate:0 };
+  data = {rowid:0,Name:"",Email:"",Mobile:"",Addr1:"",Addr2:"",Addr3:"" };
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
@@ -24,13 +24,16 @@ export class EditClientdataPage {
       name: 'MobiInv.db',
       location: 'default'
     }).then((db: SQLiteObject) => {
-      db.executeSql('SELECT * FROM Items WHERE rowid=?', [rowid])
+      db.executeSql('SELECT * FROM Clients WHERE rowid=?', [rowid])
         .then(res => {
           if(res.rows.length > 0) {
             this.data.rowid = res.rows.item(0).rowid;
-            this.data.description = res.rows.item(0).description;            
-            this.data.code = res.rows.item(0).code;
-            this.data.rate = res.rows.item(0).rate;
+            this.data.Name = res.rows.item(0).Name;            
+            this.data.Email = res.rows.item(0).Email;
+            this.data.Addr1 = res.rows.item(0).Addr1;
+            this.data.Mobile = res.rows.item(0).Mobile;
+            this.data.Addr2 = res.rows.item(0).Addr2;
+            this.data.Addr3 = res.rows.item(0).Addr3;
           }
         })
         .catch(e => {
@@ -56,7 +59,7 @@ export class EditClientdataPage {
       name: 'MobiInv.db',
       location: 'default'
     }).then((db: SQLiteObject) => {
-      db.executeSql('UPDATE Items SET description=?,code=?,rate=? WHERE rowid=?',[this.data.description,this.data.code,this.data.rate,this.data.rowid])
+      db.executeSql('UPDATE Clients SET Name=?,Email=?,Mobile=?,Addr1=?,Addr2=?,Addr3=? WHERE rowid=?',[this.data.Name,this.data.Email,this.data.Mobile,this.data.Addr1,this.data.Addr2,this.data.Addr3,this.data.rowid])
         .then(res => {
           console.log(res);
           this.toast.show('Data updated', '5000', 'center').subscribe(
