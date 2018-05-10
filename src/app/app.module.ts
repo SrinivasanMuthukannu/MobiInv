@@ -12,6 +12,8 @@ import { AddItemdataPage } from '../pages/add-itemdata/add-itemdata';
 import { EditItemdataPage } from '../pages/edit-itemdata/edit-itemdata';
 import { AddClientdataPage } from '../pages/add-clientdata/add-clientdata';
 import { EditClientdataPage } from '../pages/edit-clientdata/edit-clientdata';
+import { AddPurchasedataPage } from '../pages/add-purchasedata/add-purchasedata';
+import { EditPurchasedataPage } from '../pages/edit-purchasedata/edit-purchasedata';
 
 
 @NgModule({
@@ -21,7 +23,9 @@ import { EditClientdataPage } from '../pages/edit-clientdata/edit-clientdata';
     AddItemdataPage,
     EditItemdataPage,
     AddClientdataPage,
-    EditClientdataPage
+    EditClientdataPage,
+    AddPurchasedataPage,
+    EditPurchasedataPage
   ],
   imports: [
     BrowserModule,
@@ -34,7 +38,9 @@ import { EditClientdataPage } from '../pages/edit-clientdata/edit-clientdata';
     AddItemdataPage,
     EditItemdataPage,
     AddClientdataPage,
-    EditClientdataPage
+    EditClientdataPage,
+    AddPurchasedataPage,
+    EditPurchasedataPage
   ],
   providers: [
     StatusBar,

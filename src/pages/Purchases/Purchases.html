@@ -5,7 +5,7 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     </ion-buttons>
-    <ion-title>Clients</ion-title>
+    <ion-title>Purchase Orders</ion-title>
     <ion-buttons end>
       <button ion-button icon-only (click)="addData()">
         <ion-icon name="add-circle"></ion-icon>
@@ -14,14 +14,13 @@
   </ion-navbar>
 </ion-header>
  
-<ion-content>
-  <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
+<ion-content> 
   <ion-list>
     <ion-item-sliding *ngFor="let itemsls of ItemsList; let i=index">
       <ion-item nopadding>
         <p>
-          <span>{{itemsls.Name}}</span><br>
-          Contact: {{itemsls.Mobile}}<br>          
+          <span>{{itemsls.InvoiceId}}</span><br>
+          Contact: {{itemsls.Date}}<br>          
         </p>
         <!-- <h3 item-end>
           Rate: ${{itemsls.rate}}          
