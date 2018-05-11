@@ -14,6 +14,7 @@ import { AddClientdataPage } from '../pages/add-clientdata/add-clientdata';
 import { EditClientdataPage } from '../pages/edit-clientdata/edit-clientdata';
 import { AddPurchasedataPage } from '../pages/add-purchasedata/add-purchasedata';
 import { EditPurchasedataPage } from '../pages/edit-purchasedata/edit-purchasedata';
+import { SelectSearchableModule } from 'ionic-select-searchable';
 
 
 @NgModule({
@@ -29,7 +30,8 @@ import { EditPurchasedataPage } from '../pages/edit-purchasedata/edit-purchaseda
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp),
+    SelectSearchableModule 
   ],
   bootstrap: [IonicApp],
   entryComponents: [
