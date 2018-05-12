@@ -3,10 +3,13 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 import { Toast } from '@ionic-native/toast';
 import { SelectSearchable } from 'ionic-select-searchable';
+import { ItemseditPage } from '../Itemsedit/Itemsedit';
 
 class Item {
   public id: number;
   public name: string;
+  public code : string;
+  public rate : number;
 }
 
 class Client {
@@ -47,7 +50,7 @@ export class AddPurchasedataPage {
         .then(res => {
           this.Items = [];
           for(var i=0; i<res.rows.length; i++) {
-            this.Items.push({id:res.rows.item(i).rowid,name:res.rows.item(i).description})
+            this.Items.push({id:res.rows.item(i).rowid,name:res.rows.item(i).description,code:res.rows.item(i).code,rate:res.rows.item(i).rate})
           }
           
         })   
@@ -74,7 +77,11 @@ export class AddPurchasedataPage {
   
 
   itemChange(event: { component: SelectSearchable, value: any }) {
+    this.navCtrl.push(ItemseditPage, {
+      Items:this.ItemSelected
+    });
       console.log('items:', event.value);
+      console.log('items',this.ItemSelected);
   }  
   clientChange(event: { component: SelectSearchable, value: any }) {
     console.log('clients:', event.value);

@@ -15,6 +15,7 @@ import { EditClientdataPage } from '../pages/edit-clientdata/edit-clientdata';
 import { AddPurchasedataPage } from '../pages/add-purchasedata/add-purchasedata';
 import { EditPurchasedataPage } from '../pages/edit-purchasedata/edit-purchasedata';
 import { SelectSearchableModule } from 'ionic-select-searchable';
+import { ItemseditPage } from '../pages/Itemsedit/Itemsedit';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { SelectSearchableModule } from 'ionic-select-searchable';
     AddClientdataPage,
     EditClientdataPage,
     AddPurchasedataPage,
-    EditPurchasedataPage
+    EditPurchasedataPage,
+    ItemseditPage
   ],
   imports: [
     BrowserModule,
@@ -42,7 +44,8 @@ import { SelectSearchableModule } from 'ionic-select-searchable';
     AddClientdataPage,
     EditClientdataPage,
     AddPurchasedataPage,
-    EditPurchasedataPage
+    EditPurchasedataPage,
+    ItemseditPage
   ],
   providers: [
     StatusBar,

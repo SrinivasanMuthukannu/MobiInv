@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-buttons start>
+      <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    </ion-buttons>
+    <ion-title>Items</ion-title>    
+  </ion-navbar>
+</ion-header>
+ 
+<ion-content>  
+  <ion-list>
+    <ion-item-sliding *ngFor="let itemsls of ItemsList; let i=index">
+      <ion-item nopadding>
+        <p>
+          <span>{{itemsls.name}}</span><br>
+          Code: {{itemsls.code}}<br>          
+        </p>
+        <h3 item-end>
+          Rate: ${{itemsls.rate}}          
+        </h3>
+      </ion-item>      
+    </ion-item-sliding>
+  </ion-list>
+</ion-content>
