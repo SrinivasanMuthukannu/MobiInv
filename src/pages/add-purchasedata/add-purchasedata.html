@@ -1,11 +1,23 @@
 <ion-header>
   <ion-navbar color="primary">
-    <ion-title>Purchase Order</ion-title>
+    <ion-title>Add Purchase Order</ion-title>
   </ion-navbar>
 </ion-header>
-<ion-content padding>
-  <h2>Add Purchase Order</h2>  
-    <ion-item>
+<ion-content class="page-addpurchasedata">  
+  <ion-item>
+    <select-searchable
+        [(ngModel)]="ClientSelected"
+        title="Clients"
+        itemValueField="id"
+        itemTextField="name"
+        [items]="Clients"
+        [canSearch]="true"
+        [canReset]="true"        
+        (onChange)="clientChange($event)">
+    </select-searchable>
+</ion-item> 
+<br>  
+    <ion-item >
       <select-searchable
           [(ngModel)]="ItemSelected"
           title="Items"
@@ -17,19 +29,23 @@
           [multiple]="true"
           (onChange)="itemChange($event)">
       </select-searchable>
-  </ion-item>     
+  </ion-item>
+  <br>     
     <ion-item>
       <ion-label>Subtotal</ion-label>      
       <ion-label>$0.0</ion-label>
     </ion-item> 
+    <br>
     <ion-item>
       <ion-label>GST</ion-label>      
       <ion-label>$0.0</ion-label>
     </ion-item> 
-    <ion-item class="primary">
+    <br>
+    <ion-item>
       <ion-label>Total</ion-label>      
       <ion-label>$0.0</ion-label>
     </ion-item> 
+    <br>
     <ion-item>
       <ion-input>Thank you for your business.</ion-input>
     </ion-item>   

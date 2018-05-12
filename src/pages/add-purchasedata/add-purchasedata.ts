@@ -1,33 +1,41 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams,InfiniteScroll,ModalController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 import { Toast } from '@ionic-native/toast';
 import { SelectSearchable } from 'ionic-select-searchable';
-
-
 
 class Item {
   public id: number;
   public name: string;
 }
 
+class Client {
+  public id: number;
+  public name: string;
+}
+
 @IonicPage()
 @Component({
-  selector: 'page-add-purchasedata',
+  selector: 'page-addpurchasedata',
   templateUrl: 'add-purchasedata.html',
 })
 export class AddPurchasedataPage {
 
   Items: Item[];
-  ItemSelected: Item;
+  ItemSelected: Item;  
+  Clients: Client[];
+  ClientSelected: Client;
+
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     private sqlite: SQLite,
     private toast: Toast) {
-      this.getData();
+      this.getitemData();
+      this.getclientData();
     }
-    getData() {
+
+    getitemData() {
       this.sqlite.create({
         name: 'MobiInv.db',
         location: 'default'
@@ -45,10 +53,31 @@ export class AddPurchasedataPage {
         })   
       }).catch(e => console.log(e));
     }
+
+    getclientData() {
+      this.sqlite.create({
+        name: 'MobiInv.db',
+        location: 'default'
+      }).then((db: SQLiteObject) => {  
+         db.executeSql('CREATE TABLE IF NOT EXISTS Clients(rowid INTEGER PRIMARY KEY AUTOINCREMENT,Name TEXT,Email TEXT,Mobile TEXT,Addr1 TEXT,Addr2 TEXT,Addr3 TEXT)', {})
+        .then(res => console.log('Executed SQL  clients'))
+        .catch(e => console.log(e));      
+        db.executeSql('SELECT * FROM Clients ORDER BY rowid DESC', {})
+        .then(res => {
+          this.Clients = [];
+          for(var i=0; i<res.rows.length; i++) {
+            this.Clients.push({id:res.rows.item(i).rowid,name:res.rows.item(i).Name})
+          }          
+        })   
+      }).catch(e => console.log(e));
+    }
   
 
-    itemChange(event: { component: SelectSearchable, value: any }) {
-      console.log('port:', event.value);
+  itemChange(event: { component: SelectSearchable, value: any }) {
+      console.log('items:', event.value);
   }  
+  clientChange(event: { component: SelectSearchable, value: any }) {
+    console.log('clients:', event.value);
+}  
 
 }

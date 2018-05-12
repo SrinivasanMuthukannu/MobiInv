@@ -1,13 +1,7 @@
-.page-addpurchasedata {
-
-  ion-label
-  {
-      font-family: Verdana, Geneva, Tahoma, sans-serif;      
-      font-size: 16px;
-      padding: 5px 5px 5px 5px;
+ 
+.item-select-searchable .label {
+    margin-right: 0;
   }
-
-  
   
   .select-searchable {
     display: -webkit-flex;
@@ -21,33 +15,32 @@
     flex: 1;
     text-overflow: ellipsis;
     overflow: hidden;
-    font-weight: bold;
   }
   
   .select-searchable-value {
-    max-width:100%;
-    text-overflow:clip;
+    max-width: 45%;
+    text-overflow: ellipsis;
     overflow: hidden;
-    width:120px;
-    
   }
   
   .select-searchable-icon {
     position: relative;
-    width: 120px;
+    width: 20px;
   }
   
   .select-searchable-icon-inner {
     position: absolute;
-    top: 90%;
-    left: 100px;
+    top: 50%;
+    left: 5px;
     border-top: 5px solid;
     border-right: 5px solid transparent;
     border-left: 5px solid transparent;
     pointer-events: none;
   }
   
-  
+  .select-searchable-ios .select-searchable-icon {
+    height: 18px;
+  }
   
   .select-searchable-ios .select-searchable-icon-inner {
     margin-top: -2px;
@@ -55,11 +48,11 @@
   }
   
   .select-searchable-ios .select-searchable-value {
-    padding-left: 30px;
+    padding-left: 16px;
   }
   
   .select-searchable-md .select-searchable-icon {
-    height: 10px;
+    height: 19px;
   }
   
   .select-searchable-md .select-searchable-icon-inner {
@@ -68,7 +61,7 @@
   }
   
   .select-searchable-md .select-searchable-value {
-    padding-left: 30px;
+    padding-left: 16px;
   }
   
   .select-searchable-md .select-searchable-label {
@@ -93,7 +86,12 @@
     z-index: 10;
     margin-top: -14px;
     margin-left: -14px;
-  } 
- 
-
-}
+  }
+  
+  .select-searchable-page.select-searchable-page-can-reset.select-searchable-page-multiple .footer .col:first-child {
+    padding-right: 8px;
+  }
+  
+  .select-searchable-page.select-searchable-page-can-reset.select-searchable-page-multiple .footer .col:last-child {
+    padding-left: 8px;
+  }
