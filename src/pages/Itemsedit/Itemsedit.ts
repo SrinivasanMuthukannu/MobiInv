@@ -7,6 +7,8 @@ class Item {
   public name: string;
   public code : string;
   public rate : number;
+  public qty : number;
+  public tax :boolean;
 }
 
 @IonicPage()

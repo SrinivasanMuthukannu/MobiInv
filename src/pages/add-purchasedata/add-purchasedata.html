@@ -31,21 +31,31 @@
       </select-searchable>
   </ion-item>
   <br>     
-    <ion-item>
-      <ion-label>Subtotal</ion-label>      
-      <ion-label>$0.0</ion-label>
-    </ion-item> 
-    <br>
-    <ion-item>
-      <ion-label>GST</ion-label>      
-      <ion-label>$0.0</ion-label>
-    </ion-item> 
-    <br>
-    <ion-item>
-      <ion-label>Total</ion-label>      
-      <ion-label>$0.0</ion-label>
-    </ion-item> 
-    <br>
+  <ion-card>
+      <ion-card-header>Items Cart</ion-card-header>
+    </ion-card>
+    <ion-row *ngFor="let itemsls of ItemSelected; let i=index">
+      <ion-col>
+        <div>{{i+1}}</div>
+      </ion-col>
+      <ion-col>
+        <div>{{itemsls.name}}</div>             
+        <div>{{itemsls.rate}} X {{itemsls.qty}}</div>                        
+      </ion-col>      
+      <ion-col>
+          <ion-label color="danger">{{itemsls.rate * itemsls.qty}}</ion-label>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <button ion-item>SubTotal Rs {{Subtotal(ItemSelected)}} </button> 
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <button ion-item>Total Rs 0.00</button> 
+      </ion-col>
+    </ion-row>    
     <ion-item>
       <ion-input>Thank you for your business.</ion-input>
     </ion-item>   

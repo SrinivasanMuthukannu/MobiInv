@@ -4,12 +4,15 @@ import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 import { Toast } from '@ionic-native/toast';
 import { SelectSearchable } from 'ionic-select-searchable';
 import { ItemseditPage } from '../Itemsedit/Itemsedit';
+import { GESTURE_PRIORITY_GO_BACK_SWIPE } from 'ionic-angular/gestures/gesture-controller'
 
 class Item {
   public id: number;
   public name: string;
   public code : string;
   public rate : number;
+  public qty : number;
+  public tax :boolean;
 }
 
 class Client {
@@ -28,6 +31,7 @@ export class AddPurchasedataPage {
   ItemSelected: Item;  
   Clients: Client[];
   ClientSelected: Client;
+  public subtotal : number = 0;
 
 
   constructor(public navCtrl: NavController,
@@ -50,7 +54,7 @@ export class AddPurchasedataPage {
         .then(res => {
           this.Items = [];
           for(var i=0; i<res.rows.length; i++) {
-            this.Items.push({id:res.rows.item(i).rowid,name:res.rows.item(i).description,code:res.rows.item(i).code,rate:res.rows.item(i).rate})
+            this.Items.push({id:res.rows.item(i).rowid,name:res.rows.item(i).description,code:res.rows.item(i).code,rate:res.rows.item(i).rate,qty:1,tax:true})
           }
           
         })   
@@ -80,11 +84,19 @@ export class AddPurchasedataPage {
     this.navCtrl.push(ItemseditPage, {
       Items:this.ItemSelected
     });
-      console.log('items:', event.value);
-      console.log('items',this.ItemSelected);
+     
   }  
   clientChange(event: { component: SelectSearchable, value: any }) {
-    console.log('clients:', event.value);
-}  
+    //console.log('clients:', event.value);
+}
+
+public Subtotal(items){
+  this.subtotal = 0;
+  if (items != null && items.length > 0) {      
+    items.forEach(x => this.subtotal += (x.qty*x.rate));
+  }
+  return this.subtotal;
+}
+
 
 }
