@@ -1,9 +1,13 @@
 <ion-header>
   <ion-navbar color="primary">
-    <ion-title>Add Purchase Order</ion-title>
+    <ion-title>Add Purchase Order</ion-title>    
   </ion-navbar>
 </ion-header>
-<ion-content class="page-addpurchasedata">  
+<ion-content class="page-addpurchasedata">
+  <ion-row>
+    <ion-col><ion-item class="ion-label" item-width="500" >ID: {{invoiceId}}</ion-item></ion-col>
+    <ion-col><ion-item class="ion-label">Date: {{invoicedate}}</ion-item></ion-col>
+  </ion-row>   
   <ion-item>
     <select-searchable
         [(ngModel)]="ClientSelected"
@@ -31,32 +35,34 @@
       </select-searchable>
   </ion-item>
   <br>     
-  <ion-card>
+  <ion-card color="primary">
       <ion-card-header>Items Cart</ion-card-header>
     </ion-card>
     <ion-row *ngFor="let itemsls of ItemSelected; let i=index">
       <ion-col>
-        <div>{{i+1}}</div>
+        <div class="labels">{{i+1}}</div>
       </ion-col>
       <ion-col>
-        <div>{{itemsls.name}}</div>             
-        <div>{{itemsls.rate}} X {{itemsls.qty}}</div>                        
+        <div class="labels">{{itemsls.name}}</div>             
+        <div class="labels">{{itemsls.rate}} X {{itemsls.qty}}</div>                        
       </ion-col>      
       <ion-col>
           <ion-label color="danger">{{itemsls.rate * itemsls.qty}}</ion-label>
       </ion-col>
     </ion-row>
     <ion-row>
+      <ion-col>&nbsp;</ion-col>
       <ion-col>
-        <button ion-item>SubTotal Rs {{Subtotal(ItemSelected)}} </button> 
+        <ion-item class="ion-label">SubTotal : {{Subtotal(ItemSelected)}}</ion-item> 
       </ion-col>
     </ion-row>
-    <ion-row>
+    <!-- <ion-row>
+        <ion-col>&nbsp;</ion-col>
       <ion-col>
-        <button ion-item>Total Rs 0.00</button> 
+        <ion-item class="ion-label">Total : 0</ion-item> 
       </ion-col>
-    </ion-row>    
+    </ion-row>     -->
     <ion-item>
-      <ion-input>Thank you for your business.</ion-input>
+      <div>Thank you for your business.</div>
     </ion-item>   
 </ion-content>

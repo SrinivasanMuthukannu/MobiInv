@@ -41,7 +41,9 @@ ItemsList: any = [];
   }
   
   addData() {
-   this.navCtrl.push(AddPurchasedataPage);   
+   this.navCtrl.push(AddPurchasedataPage,{
+    type:"P"
+   });   
   }
   
   editData(rowid) {

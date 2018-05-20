@@ -32,6 +32,9 @@ export class AddPurchasedataPage {
   Clients: Client[];
   ClientSelected: Client;
   public subtotal : number = 0;
+  public invoiceId : string;
+  public invoicedate : string;
+
 
 
   constructor(public navCtrl: NavController,
@@ -39,7 +42,25 @@ export class AddPurchasedataPage {
     private sqlite: SQLite,
     private toast: Toast) {
       this.getitemData();
-      this.getclientData();
+      this.getclientData();      
+      this.getinvoiceId(navParams.get("type"));
+    }
+
+    getinvoiceId(type) {      
+      this.sqlite.create({
+        name: 'MobiInv.db',
+        location: 'default'
+      }).then((db: SQLiteObject) => {
+        db.executeSql("SELECT COALESCE(MAX(rowid)+1,1) as Rowid,date('now') as Invcdt FROM Invoices WHERE (InvoiceId LIKE ? )", [type+'%'])
+        .then(res => {
+          for(var i=0; i<res.rows.length; i++) {
+            this.invoiceId =type+res.rows.item(i).Rowid;
+           this.invoicedate = res.rows.item(i).Invcdt;
+          } 
+          console.log("Date");          
+        })
+        .catch(e => console.log(e));
+      }).catch(e => console.log(e));
     }
 
     getitemData() {
