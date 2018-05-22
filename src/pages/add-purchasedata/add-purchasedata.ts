@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams,Platform,ActionSheetController } from 'ionic-angular';
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 import { Toast } from '@ionic-native/toast';
 import { SelectSearchable } from 'ionic-select-searchable';
@@ -40,7 +40,8 @@ export class AddPurchasedataPage {
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     private sqlite: SQLite,
-    private toast: Toast) {
+    private toast: Toast, public platform: Platform,
+    public actionsheetCtrl: ActionSheetController) {
       this.getitemData();
       this.getclientData();      
       this.getinvoiceId(navParams.get("type"));
@@ -51,7 +52,7 @@ export class AddPurchasedataPage {
         name: 'MobiInv.db',
         location: 'default'
       }).then((db: SQLiteObject) => {
-        db.executeSql("SELECT COALESCE(MAX(rowid)+1,1) as Rowid,date('now') as Invcdt FROM Invoices WHERE (InvoiceId LIKE ? )", [type+'%'])
+        db.executeSql("SELECT COALESCE(MAX(rowid)+1,1) as Rowid,date('now') as Invcdt FROM Invoices WHERE Type=?", [type])
         .then(res => {
           for(var i=0; i<res.rows.length; i++) {
             this.invoiceId =type+res.rows.item(i).Rowid;
@@ -119,5 +120,85 @@ public Subtotal(items){
   return this.subtotal;
 }
 
+openInvoice(items) {
+  let actionSheet = this.actionsheetCtrl.create({
+    title: 'Albums',
+    cssClass: 'page-addpurchasedata',
+    buttons: [
+      {
+        text: 'Save',
+        role: 'destructive',
+        icon: !this.platform.is('ios') ? 'cart' : null,
+        handler: () => {          
+          this.saveData(items);
+          console.log('Save completed');
+        }
+      },
+      {
+        text: 'Share',
+        icon: !this.platform.is('ios') ? 'share' : null,
+        handler: () => {
+          console.log('Share clicked');
+        }
+      },     
+      {
+        text: 'Cancel',
+        role: 'cancel', // will always sort to be on the bottom
+        icon: !this.platform.is('ios') ? 'close' : null,
+        handler: () => {
+          console.log('Cancel clicked');
+        }
+      }
+    ]
+  });
+  actionSheet.present();
+}
+
+saveData(items) {
+  this.sqlite.create({
+    name: 'MobiInv.db',
+    location: 'default'
+  }).then((db: SQLiteObject) => {
+    db.executeSql('INSERT INTO Invoices(InvoiceId,ClientId,Date,Status,Type) VALUES(?,?,?,?,?)',[this.invoiceId,this.ClientSelected,this.invoicedate,'Initiated',this.navParams.get("type")])
+      .then(res => {
+        if (items != null && items.length > 0) {      
+          items.forEach(x => this.InsertData(x.Itemid,x.rate,x.qty,x.tax));
+        }
+        console.log("Inserted");
+        this.toast.show('Data saved', '5000', 'center').subscribe(
+          toast => {
+            this.navCtrl.popToRoot();
+          }
+        );
+      })
+      .catch(e => {
+        console.log(e);
+        this.toast.show(e, '5000', 'center').subscribe(
+          toast => {
+            console.log(toast);
+          }
+        );
+      });
+  }).catch(e => {
+    console.log(e);
+    this.toast.show(e, '5000', 'center').subscribe(
+      toast => {
+        console.log(toast);
+      }
+    );
+  });
+}
+
+InsertData(Itemid,Rate,Qty,tax) {
+  this.sqlite.create({
+    name: 'MobiInv.db',
+    location: 'default'
+  }).then((db: SQLiteObject) => {  
+     db.executeSql('CREATE TABLE IF NOT EXISTS InvoiceDetail(InvoiceId TEXT,ItemId INT,Rate INT,Qty INT,Tax TEXT)', {})
+    .then(res => console.log('Executed SQL  Invoices'))
+    .catch(e => console.log(e));      
+    db.executeSql('INSERT INTO InvoiceDetail(InvoiceId,ItemId,Rate,Qty,Tax) VALUES(?,?,?,?,?)',[this.invoiceId,Itemid,Rate,Qty,tax]) 
+  }).catch(e => console.log(e));
+}
 
 }

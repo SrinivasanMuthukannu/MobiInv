@@ -1,6 +1,11 @@
 <ion-header>
   <ion-navbar color="primary">
     <ion-title>Add Purchase Order</ion-title>    
+    <ion-buttons  end>
+      <button ion-button icon-only (click)="openInvoice(ItemSelected)">
+        <ion-icon name="ios-redo-outline"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 <ion-content class="page-addpurchasedata">
