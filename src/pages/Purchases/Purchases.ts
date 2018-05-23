@@ -30,11 +30,11 @@ ItemsList: any = [];
        db.executeSql('CREATE TABLE IF NOT EXISTS Invoices(rowid INTEGER PRIMARY KEY AUTOINCREMENT,InvoiceId TEXT, ClientId INTEGER,Date TEXT,Status TEXT,Type TEXT)', {})
       .then(res => console.log('Executed SQL  Invoices'))
       .catch(e => console.log(e));      
-      db.executeSql('SELECT * FROM Invoices ORDER BY rowid DESC', {})
+      db.executeSql('SELECT A.InvoiceId,A.Date,B.ItemId,B.Qty,B.Tax FROM Invoices as A INNER JOIN InvoiceDetail as B  ON A.InvoiceId = B.InvoiceId ORDER BY A.rowid DESC', {})
       .then(res => {
         this.ItemsList = [];
         for(var i=0; i<res.rows.length; i++) {
-          this.ItemsList.push({rowid:res.rows.item(i).rowid,InvoiceId:res.rows.item(i).InvoiceId,Date:res.rows.item(i).Date})
+          this.ItemsList.push({rowid:res.rows.item(i).rowid,InvoiceId:res.rows.item(i).InvoiceId,Date:res.rows.item(i).Date,ItemId:res.rows.item(i).ItemId,Qty:res.rows.item(i).Qty,Tax:res.rows.item(i).Tax})
         }        
       })   
     }).catch(e => console.log(e));
