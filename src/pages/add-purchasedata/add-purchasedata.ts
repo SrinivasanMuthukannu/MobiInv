@@ -159,7 +159,7 @@ saveData(items) {
     name: 'MobiInv.db',
     location: 'default'
   }).then((db: SQLiteObject) => {
-    db.executeSql('INSERT INTO Invoices(InvoiceId,ClientId,Date,Status,Type) VALUES(?,?,?,?,?)',[this.invoiceId,this.ClientSelected,this.invoicedate,'Initiated',this.navParams.get("type")])
+    db.executeSql('INSERT INTO Invoices(InvoiceId,ClientId,Date,Status,Type) VALUES(?,?,?,?,?)',[this.invoiceId,this.ClientSelected.id,this.invoicedate,'Initiated',this.navParams.get("type")])
       .then(res => {
         if (items != null && items.length > 0) {      
           items.forEach(x => this.InsertData(x.Itemid,x.rate,x.qty,x.tax));
@@ -195,7 +195,7 @@ InsertData(Itemid,Rate,Qty,tax) {
     location: 'default'
   }).then((db: SQLiteObject) => {  
      db.executeSql('CREATE TABLE IF NOT EXISTS InvoiceDetail(InvoiceId TEXT,ItemId INT,Rate INT,Qty INT,Tax TEXT)', {})
-    .then(res => console.log('Executed SQL  Invoices'))
+    .then(res => console.log('Executed SQL  InvoicesDetails'))
     .catch(e => console.log(e));      
     db.executeSql('INSERT INTO InvoiceDetail(InvoiceId,ItemId,Rate,Qty,Tax) VALUES(?,?,?,?,?)',[this.invoiceId,Itemid,Rate,Qty,tax]) 
   }).catch(e => console.log(e));

@@ -17,23 +17,22 @@
 <ion-content> 
   <ion-list>
     <ion-item-sliding *ngFor="let itemsls of ItemsList; let i=index">
-      <ion-item nopadding>
-        <p>
-          <span>{{itemsls.InvoiceId}}</span><br>
-          Date : {{itemsls.Date}}<br> 
-          item :{{itemsls.ItemId}} 
-          Qty :{{itemsls.Qty}}
-          Tax :{{itemsls.Tax}}        
-        </p>
-        <!-- <h3 item-end>
-          Rate: ${{itemsls.rate}}          
-        </h3> -->
+      <ion-item>  
+          <!-- <h2>
+              {{itemsls.ClientId}}          
+          </h2>      -->
+        <h2>{{itemsls.InvoiceId}}</h2>
+        <h2 item-end>
+            {{itemsls.Total}}          
+        </h2>        
+        <h2>{{itemsls.Date}}</h2>
+        
       </ion-item>
       <ion-item-options side="right">
         <button ion-button color="primary" (click)="editData(itemsls.rowid)">
           <ion-icon name="paper"></ion-icon>
         </button>
-        <button ion-button color="danger" (click)="deleteData(itemsls.rowid)">
+        <button ion-button color="danger" (click)="deleteData(itemsls.rowid,itemsls.InvoiceId)">
           <ion-icon name="trash"></ion-icon>
         </button>
       </ion-item-options>
