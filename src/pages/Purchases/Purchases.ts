@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 import { AddPurchasedataPage } from '../add-purchasedata/add-purchasedata';
-import { EditPurchasedataPage } from '../edit-purchasedata/edit-purchasedata';
+// import { AddPurchasedataPage } from '../edit-purchasedata/edit-purchasedata';
 
 @IonicPage()
 @Component({
@@ -42,13 +42,17 @@ ItemsList: any = [];
   
   addData() {
    this.navCtrl.push(AddPurchasedataPage,{
-    type:"P"
+    type:"P",
+    flag:"A"
    });   
   }
   
-  editData(rowid) {
-    this.navCtrl.push(EditPurchasedataPage, {
-      rowid:rowid
+  editData(rowid,InvoiceId) {
+    this.navCtrl.push(AddPurchasedataPage, {
+      rowid:rowid,
+      InvoiceId : InvoiceId,
+      flag:"E",
+      type:"P"
     });
   }
   

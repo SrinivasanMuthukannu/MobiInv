@@ -28,12 +28,14 @@ class Client {
 export class AddPurchasedataPage {
 
   Items: Item[];
-  ItemSelected: Item;  
+  ItemSelected: Item; 
+  ItemsEdit : Item[]; 
   Clients: Client[];
-  ClientSelected: Client;
+  ClientSelected: Client;  
   public subtotal : number = 0;
   public invoiceId : string;
   public invoicedate : string;
+  public flg : string;
 
 
 
@@ -42,9 +44,64 @@ export class AddPurchasedataPage {
     private sqlite: SQLite,
     private toast: Toast, public platform: Platform,
     public actionsheetCtrl: ActionSheetController) {
+      this.flg = navParams.get("flag");         
+      if(this.flg=="A"){  
+        this.getinvoiceId(navParams.get("type"));
+      }
+      else
+      { 
+        console.log("Edit");
+        this.invoiceId =  navParams.get("InvoiceId");     
+       this.getEdititemData(navParams.get("rowid"),navParams.get("InvoiceId"));
+       this.getEditClientData(navParams.get("rowid"),navParams.get("InvoiceId"));
+       this.setData(this.ItemsEdit,this.Clients);
+      }
       this.getitemData();
-      this.getclientData();      
-      this.getinvoiceId(navParams.get("type"));
+      this.getclientData();
+    }
+    setData(items,clients)
+    {
+     this.ItemSelected = items;
+     this.ClientSelected = clients;
+    }
+
+    getEditClientData(rowid,invoiceId)
+    {
+      this.sqlite.create({
+        name: 'MobiInv.db',
+        location: 'default'
+      }).then((db: SQLiteObject) => { 
+        db.executeSql('SELECT A.rowid,A.Name FROM Clients as A  INNER JOIN  Invoices as B ON A.rowid = B.ClientId where B.rowid = ? and B.InvoiceId = ? ',[rowid,invoiceId])
+        .then(res => {  
+          this.Clients = [];      
+          for(var i=0; i<res.rows.length; i++) {
+            this.Clients.push({id:res.rows.item(i).rowid,name:res.rows.item(i).Name})
+            //this.ClientSelected.id = res.rows.item(i).rowid;
+            //this.ClientSelected.name = res.rows.item(i).Name;            
+            console.log("Edited Clients");
+          }  
+                 
+        })   
+      }).catch(e => console.log(e));
+    }
+
+    getEdititemData(rowid,InvoiceId)
+    {
+      this.sqlite.create({
+        name: 'MobiInv.db',
+        location: 'default'
+      }).then((db: SQLiteObject) => {                 
+        db.executeSql('SELECT A.rowid,A.InvoiceId,A.Date,B.Rate,B.Qty,B.Tax,C.description,C.code FROM Invoices as A INNER JOIN  InvoiceDetail  as B  ON A.InvoiceId = B.InvoiceId INNER JOIN Items as C ON C.rowid =  B.ItemId where A.InvoiceId=? and A.rowid=?', [InvoiceId,rowid])
+        .then(res => {          
+          this.ItemsEdit = [];                 
+          for(var i=0; i<res.rows.length; i++) {
+            console.log("Edited items");
+            this.ItemsEdit.push({id:res.rows.item(i).rowid,name:res.rows.item(i).description,code:res.rows.item(i).code,rate:res.rows.item(i).Rate,qty:res.rows.item(i).Qty,tax:res.rows.item(i).Tax})
+            this.invoicedate = res.rows.item(i).Date;                         
+          }
+          
+        }).catch(e => console.log(e));   
+      }).catch(e => console.log(e));
     }
 
     getinvoiceId(type) {      
@@ -159,6 +216,7 @@ saveData(items) {
     name: 'MobiInv.db',
     location: 'default'
   }).then((db: SQLiteObject) => {
+   this.deleteData(this.navParams.get("rowid"),this.navParams.get("InvoiceId"));
     db.executeSql('INSERT INTO Invoices(InvoiceId,ClientId,Date,Status,Type) VALUES(?,?,?,?,?)',[this.invoiceId,this.ClientSelected.id,this.invoicedate,'Initiated',this.navParams.get("type")])
       .then(res => {
         if (items != null && items.length > 0) {      
@@ -187,6 +245,23 @@ saveData(items) {
       }
     );
   });
+}
+
+deleteData(rowid,InvoiceId) {
+  this.sqlite.create({
+    name: 'MobiInv.db',
+    location: 'default'
+  }).then((db: SQLiteObject) => {
+    db.executeSql('DELETE FROM Invoices WHERE rowid=? and InvoiceId=?', [rowid,InvoiceId])
+    .then(res => {
+      db.executeSql('DELETE FROM InvoiceDetail WHERE InvoiceId=?', [InvoiceId])
+      .then(res1=>{        
+        console.log('Deleted InvoiceDetail ');       
+      })
+      .catch(e => console.log(e));        
+    })
+    .catch(e => console.log(e));
+  }).catch(e => console.log(e));
 }
 
 InsertData(Itemid,Rate,Qty,tax) {
