@@ -28,8 +28,7 @@ class Client {
 export class AddPurchasedataPage {
 
   Items: Item[];
-  ItemSelected: Item; 
-  ItemsEdit : Item[]; 
+  ItemSelected: Item[];  
   Clients: Client[];
   ClientSelected: Client;  
   public subtotal : number = 0;
@@ -52,18 +51,14 @@ export class AddPurchasedataPage {
       { 
         console.log("Edit");
         this.invoiceId =  navParams.get("InvoiceId");     
-       this.getEdititemData(navParams.get("rowid"),navParams.get("InvoiceId"));
+       this.getEdititemData(navParams.get("InvoiceId"));
        this.getEditClientData(navParams.get("rowid"),navParams.get("InvoiceId"));
-       this.setData(this.ItemsEdit,this.Clients);
+       //this.setData(this.Items);
       }
       this.getitemData();
       this.getclientData();
     }
-    setData(items,clients)
-    {
-     this.ItemSelected = items;
-     this.ClientSelected = clients;
-    }
+    
 
     getEditClientData(rowid,invoiceId)
     {
@@ -73,9 +68,9 @@ export class AddPurchasedataPage {
       }).then((db: SQLiteObject) => { 
         db.executeSql('SELECT A.rowid,A.Name FROM Clients as A  INNER JOIN  Invoices as B ON A.rowid = B.ClientId where B.rowid = ? and B.InvoiceId = ? ',[rowid,invoiceId])
         .then(res => {  
-          this.Clients = [];      
+         // this.Clients = [];      
           for(var i=0; i<res.rows.length; i++) {
-            this.Clients.push({id:res.rows.item(i).rowid,name:res.rows.item(i).Name})
+            this.ClientSelected = {id:res.rows.item(i).rowid,name:res.rows.item(i).Name};
             //this.ClientSelected.id = res.rows.item(i).rowid;
             //this.ClientSelected.name = res.rows.item(i).Name;            
             console.log("Edited Clients");
@@ -85,21 +80,23 @@ export class AddPurchasedataPage {
       }).catch(e => console.log(e));
     }
 
-    getEdititemData(rowid,InvoiceId)
+    getEdititemData(InvoiceId)
     {
       this.sqlite.create({
         name: 'MobiInv.db',
         location: 'default'
       }).then((db: SQLiteObject) => {                 
-        db.executeSql('SELECT A.rowid,A.InvoiceId,A.Date,B.Rate,B.Qty,B.Tax,C.description,C.code FROM Invoices as A INNER JOIN  InvoiceDetail  as B  ON A.InvoiceId = B.InvoiceId INNER JOIN Items as C ON C.rowid =  B.ItemId where A.InvoiceId=? and A.rowid=?', [InvoiceId,rowid])
-        .then(res => {          
-          this.ItemsEdit = [];                 
+        db.executeSql('SELECT * FROM InvoiceDetail where InvoiceId=?',[this.invoiceId])
+        .then(res => {
+          this.Items = [];
           for(var i=0; i<res.rows.length; i++) {
-            console.log("Edited items");
-            this.ItemsEdit.push({id:res.rows.item(i).rowid,name:res.rows.item(i).description,code:res.rows.item(i).code,rate:res.rows.item(i).Rate,qty:res.rows.item(i).Qty,tax:res.rows.item(i).Tax})
-            this.invoicedate = res.rows.item(i).Date;                         
+            this.Items.push({id:res.rows.item(i).ItemId,name:'srini',code:res.rows.item(i).ItemId,rate:res.rows.item(i).Rate,qty:res.rows.item(i).Qty,tax:res.rows.item(i).tax})
+            console.log("edited items");
           }
-          
+          if (this.Items != null && this.Items.length > 0) {
+            this.ItemSelected = [this.Items[0],this.Items[1]];
+            console.log("edited items array");
+          }
         }).catch(e => console.log(e));   
       }).catch(e => console.log(e));
     }
@@ -220,7 +217,7 @@ saveData(items) {
     db.executeSql('INSERT INTO Invoices(InvoiceId,ClientId,Date,Status,Type) VALUES(?,?,?,?,?)',[this.invoiceId,this.ClientSelected.id,this.invoicedate,'Initiated',this.navParams.get("type")])
       .then(res => {
         if (items != null && items.length > 0) {      
-          items.forEach(x => this.InsertData(x.Itemid,x.rate,x.qty,x.tax));
+          items.forEach(x => this.InsertData(x.id,x.rate,x.qty,x.tax));
         }
         console.log("Inserted");
         this.toast.show('Data saved', '5000', 'center').subscribe(
