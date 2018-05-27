@@ -67,12 +67,9 @@ export class AddPurchasedataPage {
         location: 'default'
       }).then((db: SQLiteObject) => { 
         db.executeSql('SELECT A.rowid,A.Name FROM Clients as A  INNER JOIN  Invoices as B ON A.rowid = B.ClientId where B.rowid = ? and B.InvoiceId = ? ',[rowid,invoiceId])
-        .then(res => {  
-         // this.Clients = [];      
+        .then(res => {               
           for(var i=0; i<res.rows.length; i++) {
-            this.ClientSelected = {id:res.rows.item(i).rowid,name:res.rows.item(i).Name};
-            //this.ClientSelected.id = res.rows.item(i).rowid;
-            //this.ClientSelected.name = res.rows.item(i).Name;            
+            this.ClientSelected = {id:res.rows.item(i).rowid,name:res.rows.item(i).Name};                       
             console.log("Edited Clients");
           }  
                  
@@ -86,17 +83,17 @@ export class AddPurchasedataPage {
         name: 'MobiInv.db',
         location: 'default'
       }).then((db: SQLiteObject) => {                 
-        db.executeSql('SELECT * FROM InvoiceDetail where InvoiceId=?',[this.invoiceId])
+        db.executeSql("SELECT A.ItemId,A.Rate,A.Qty,A.Tax,date('now') as Invcdt,B.description,B.code FROM InvoiceDetail as A INNER JOIN Items as B ON A.ItemId=B.rowid where A.InvoiceId=?",[this.invoiceId])
         .then(res => {
-          this.Items = [];
+          this.ItemSelected = [];
           for(var i=0; i<res.rows.length; i++) {
-            this.Items.push({id:res.rows.item(i).ItemId,name:'srini',code:res.rows.item(i).ItemId,rate:res.rows.item(i).Rate,qty:res.rows.item(i).Qty,tax:res.rows.item(i).tax})
+            this.ItemSelected.push({id:res.rows.item(i).ItemId,name:res.rows.item(i).description,code:res.rows.item(i).code,rate:res.rows.item(i).Rate,qty:res.rows.item(i).Qty,tax:res.rows.item(i).Tax})
+            this.invoicedate = res.rows.item(i).Invcdt;
             console.log("edited items");
           }
-          if (this.Items != null && this.Items.length > 0) {
-            this.ItemSelected = [this.Items[0],this.Items[1]];
-            console.log("edited items array");
-          }
+          // if (this.Items != null && this.Items.length > 0) {                      
+          //   this.ItemSelected = [this.Items[0],this.Items[1]];            
+          // }
         }).catch(e => console.log(e));   
       }).catch(e => console.log(e));
     }
@@ -209,11 +206,12 @@ openInvoice(items) {
 }
 
 saveData(items) {
+  
+  this.deleteData(this.navParams.get("rowid"),this.navParams.get("InvoiceId"));
   this.sqlite.create({
     name: 'MobiInv.db',
     location: 'default'
-  }).then((db: SQLiteObject) => {
-   this.deleteData(this.navParams.get("rowid"),this.navParams.get("InvoiceId"));
+  }).then((db: SQLiteObject) => {   
     db.executeSql('INSERT INTO Invoices(InvoiceId,ClientId,Date,Status,Type) VALUES(?,?,?,?,?)',[this.invoiceId,this.ClientSelected.id,this.invoicedate,'Initiated',this.navParams.get("type")])
       .then(res => {
         if (items != null && items.length > 0) {      
