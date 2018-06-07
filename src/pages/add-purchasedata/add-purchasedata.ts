@@ -19,6 +19,7 @@ class Client {
   public id: number;
   public name: string;
 }
+declare var cordova:any;
 
 @IonicPage()
 @Component({
@@ -189,6 +190,7 @@ openInvoice(items) {
         text: 'Share',
         icon: !this.platform.is('ios') ? 'share' : null,
         handler: () => {
+          this.PreviewPDF(items);
           console.log('Share clicked');
         }
       },     
@@ -269,6 +271,22 @@ InsertData(Itemid,Rate,Qty,tax) {
     .catch(e => console.log(e));      
     db.executeSql('INSERT INTO InvoiceDetail(InvoiceId,ItemId,Rate,Qty,Tax) VALUES(?,?,?,?,?)',[this.invoiceId,Itemid,Rate,Qty,tax]) 
   }).catch(e => console.log(e));
+}
+
+PreviewPDF(items)
+{
+  //const before = Date.now();
+
+  let options = {
+    documentSize: 'A4',
+    type: 'share',
+    fileName: 'myFile.pdf'
+  }
+      //generate the pdf.
+      cordova.plugins.pdf.fromData( '<html> <h1>  Hello World  </h1> </html>', options )
+      .then(()=>'ok')
+      .catch((err)=>console.error(err))
+
 }
 
 }
